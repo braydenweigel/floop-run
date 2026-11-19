@@ -147,3 +147,14 @@
   stroke: #ffffff;
   fill: #171717;
 }
+
+/* Activity profile chart. validated for color-blind separation and contrast on each surface */
+:root {
+  --chart-pace: #1447e6;
+  --chart-heart-rate: #e11d48;
+  --chart-elevation: var(--muted-foreground);
+}
+.dark {
+  --chart-pace: #2b7fff;
+  --chart-heart-rate: #f43f5e;
+}

@@ -2,6 +2,7 @@ import { useState } from "react"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Upload04Icon } from "@hugeicons/core-free-icons"
 
+import { ActivityProfile } from "./components/activity-profile"
 import { ActivityStats } from "./components/activity-stats"
 import { ActivityTitle, FileChip } from "./components/activity-title"
 import { GpxUpload } from "./components/gpx-upload"
@@ -78,9 +79,9 @@ export function App() {
         </div>
       </header>
 
-      <main className="mx-auto flex w-full flex-1 flex-col gap-4 px-4 pt-5 pb-6 md:block md:flex-none md:px-6 md:pt-4 md:pb-14">
+      <main className="mx-auto flex w-full flex-1 flex-col gap-4 px-4 pt-5 pb-6 md:px-6 md:pt-4 md:pb-6">
         {activity === null ? (
-          <div className="flex flex-1 flex-col justify-center md:pt-30">
+          <div className="flex flex-1 flex-col justify-center md:flex-none md:pt-30">
             <GpxUpload onLoad={loadActivity} />
           </div>
         ) : (
@@ -91,11 +92,12 @@ export function App() {
               <FileChip fileName={activity.fileName} className="max-w-[45%]" />
             </div>
             <ActivityStats gpx={activity.gpx} units={units} />
-            <div className="grid gap-4 md:mt-4 lg:grid-cols-[400px_minmax(0,1fr)]">
+            <div className="grid gap-4 lg:grid-cols-[400px_minmax(0,1fr)]">
               {/* both cards are half the viewport tall and scroll inside if needed */}
               <SplitsCard gpx={activity.gpx} units={units} className="h-[60svh] min-h-72" />
               <RouteMap gpx={activity.gpx} className="h-[60svh] min-h-72" />
             </div>
+            <ActivityProfile gpx={activity.gpx} units={units} className="min-h-64 flex-1" />
           </>
         )}
       </main>
