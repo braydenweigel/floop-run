@@ -63,6 +63,16 @@ export function formatLongDate(date: Date): string {
   })
 }
 
+/** "Sat, Nov 14, 2026" */
+export function formatShortDate(date: Date): string {
+  return date.toLocaleDateString(undefined, {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  })
+}
+
 /** "running" -> "Running" */
 export function formatActivityType(type: string): string {
   return type ? type.charAt(0).toUpperCase() + type.slice(1).replace(/_/g, " ") : ""

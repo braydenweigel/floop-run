@@ -10,14 +10,16 @@ const OPTIONS: { value: DistanceUnit; label: string }[] = [
   { value: Unit.Kilometers, label: "Kilometers" },
 ]
 
-/** Segmented control for choosing miles or kilometers. */
+/** Segmented control for choosing miles or kilometers. `compact` shows "mi" / "km". */
 function UnitToggle({
   value,
   onChange,
+  compact = false,
   className,
 }: {
   value: DistanceUnit
   onChange: (unit: DistanceUnit) => void
+  compact?: boolean
   className?: string
 }) {
   return (
@@ -34,15 +36,17 @@ function UnitToggle({
             type="button"
             role="radio"
             aria-checked={selected}
+            aria-label={option.label}
             onClick={() => onChange(option.value)}
             className={cn(
-              "h-full rounded-md px-2.5 text-sm transition-colors",
+              "h-full rounded-md text-sm transition-colors",
+              compact ? "min-w-11 px-3" : "px-2.5",
               selected
                 ? "bg-card text-foreground shadow-xs"
                 : "text-muted-foreground hover:text-foreground",
             )}
           >
-            {option.label}
+            {compact ? option.value : option.label}
           </button>
         )
       })}

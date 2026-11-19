@@ -3,7 +3,7 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { Upload04Icon } from "@hugeicons/core-free-icons"
 
 import { ActivityStats } from "./components/activity-stats"
-import { ActivityTitle } from "./components/activity-title"
+import { ActivityTitle, FileChip } from "./components/activity-title"
 import { GpxUpload } from "./components/gpx-upload"
 import { ThemeToggle } from "./components/theme-toggle"
 import {
@@ -43,19 +43,27 @@ export function App() {
               Floop.Run Web
             </span>
             {activity && (
-              <ActivityTitle gpx={activity.gpx} fileName={activity.fileName} className="hidden md:flex" />
+              <div className="hidden min-w-0 items-center gap-4 md:flex">
+                <ActivityTitle gpx={activity.gpx} fileName={activity.fileName} variant="header" />
+                <FileChip fileName={activity.fileName} className="hidden lg:flex" />
+              </div>
             )}
           </div>
           <div className="flex shrink-0 items-center gap-1 md:gap-2">
             {activity && (
               <>
-                <UnitToggle value={units} onChange={setUnits} />
+                <div className="md:hidden">
+                  <UnitToggle value={units} onChange={setUnits} compact />
+                </div>
+                <div className="hidden md:block">
+                  <UnitToggle value={units} onChange={setUnits} />
+                </div>
                 <Button
                   variant="outline"
                   aria-label="Open GPX file"
                   disabled={picker.loading}
                   onClick={picker.open}
-                  className="h-11 bg-card shadow-xs md:h-9 dark:bg-card"
+                  className="size-11 bg-card shadow-xs md:h-9 md:w-auto dark:bg-card"
                 >
                   <HugeiconsIcon icon={Upload04Icon} />
                   <span className="hidden lg:inline">Open GPX file</span>
@@ -76,7 +84,10 @@ export function App() {
         ) : (
           <>
             {/* the header has no room for the title on small screens */}
-            <ActivityTitle gpx={activity.gpx} fileName={activity.fileName} className="md:hidden" />
+            <div className="flex items-center justify-between gap-3 md:hidden">
+              <ActivityTitle gpx={activity.gpx} fileName={activity.fileName} variant="page" />
+              <FileChip fileName={activity.fileName} className="max-w-[45%]" />
+            </div>
             <ActivityStats gpx={activity.gpx} units={units} />
           </>
         )}
