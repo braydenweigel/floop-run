@@ -128,3 +128,22 @@
     @apply font-sans;
     }
 }
+/* Route map (Leaflet). SVG attributes can't use CSS variables, so theme colors are set here. */
+.route-map.leaflet-container {
+  background: var(--muted);
+  font-family: inherit;
+}
+.route-map .route-line {
+  stroke: var(--primary);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+/* the map is always light, so the markers use fixed dark-on-light colors in both themes */
+.route-map .route-start {
+  stroke: #171717;
+  fill: #ffffff;
+}
+.route-map .route-finish {
+  stroke: #ffffff;
+  fill: #171717;
+}
