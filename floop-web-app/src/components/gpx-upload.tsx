@@ -1,38 +1,17 @@
-import { useRef, useState } from "react"
+import { useState } from "react"
 import type { DragEvent } from "react"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Upload04Icon } from "@hugeicons/core-free-icons"
 import { cn } from "cn"
 
 import { Button } from "@/components/ui/button"
+import { useGpxFilePicker } from "@/hooks/use-gpx-file-picker"
 import type { GPX } from "@/lib/gpx/models"
-import { parseFile } from "@/lib/gpx/parse"
 
 /** Drop zone + file picker that parses a .gpx file and hands back the result. */
 function GpxUpload({ onLoad }: { onLoad: (gpx: GPX) => void }) {
-  const inputRef = useRef<HTMLInputElement>(null)
+  const picker = useGpxFilePicker(onLoad)
   const [dragging, setDragging] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-
-  async function load(file: File | undefined) {
-    if (!file) return
-    if (!file.name.toLowerCase().endsWith(".gpx")) {
-      setError(`"${file.name}" isn't a .gpx file.`)
-      return
-    }
-
-    setError(null)
-    setLoading(true)
-    try {
-      onLoad(await parseFile(file))
-    } catch (e) {
-      const reason = e instanceof Error ? e.message : String(e)
-      setError(`Couldn't read "${file.name}": ${reason}`)
-    } finally {
-      setLoading(false)
-    }
-  }
 
   function onDragOver(e: DragEvent) {
     e.preventDefault()
@@ -47,7 +26,7 @@ function GpxUpload({ onLoad }: { onLoad: (gpx: GPX) => void }) {
   function onDrop(e: DragEvent) {
     e.preventDefault()
     setDragging(false)
-    void load(e.dataTransfer.files[0])
+    void picker.load(e.dataTransfer.files[0])
   }
 
   return (
@@ -72,27 +51,14 @@ function GpxUpload({ onLoad }: { onLoad: (gpx: GPX) => void }) {
         <p className="mt-6 font-semibold md:text-[15px]">Drop a .gpx file here</p>
         <p className="mt-0.5 text-sm text-muted-foreground">or choose one from your device</p>
 
-        <Button
-          className="mt-5 h-11 px-5 text-[15px]"
-          disabled={loading}
-          onClick={() => inputRef.current?.click()}
-        >
-          {loading ? "Loading…" : "Choose file"}
+        <Button className="mt-5 h-11 px-5 text-[15px]" disabled={picker.loading} onClick={picker.open}>
+          {picker.loading ? "Loading…" : "Choose file"}
         </Button>
-        <input
-          ref={inputRef}
-          type="file"
-          accept=".gpx,application/gpx+xml"
-          className="hidden"
-          onChange={(e) => {
-            void load(e.target.files?.[0])
-            e.target.value = "" // allow choosing the same file again
-          }}
-        />
+        {picker.input}
 
-        {error && (
+        {picker.error && (
           <p role="alert" className="mt-4 text-sm text-destructive">
-            {error}
+            {picker.error}
           </p>
         )}
       </div>
