@@ -1,19 +1,26 @@
-import { Button } from "@/components/ui/button"
+import { ThemeToggle } from "./components/theme-toggle"
+
 
 export function App() {
   return (
-    <div className="flex min-h-svh p-6">
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 className="font-medium">Project ready!</h1>
-          <p>You may now add components and start building.</p>
-          <p>We&apos;ve already added the button component for you.</p>
-          <Button className="mt-2">Button</Button>
+    <div className="flex min-h-svh flex-col bg-background text-foreground antialiased">
+      <header className="border-b bg-card">
+        <div className="mx-auto flex h-15 items-center justify-between gap-4 pr-3 pl-4 md:h-16 md:px-6">
+          <div className="flex items-center gap-2.5">
+            <span className="text-base font-semibold tracking-[-0.01em] md:text-[15px]">
+              Floop.Run Web
+            </span>
+          </div>
+          <div className="flex items-center gap-1 md:gap-2">
+
+            <ThemeToggle className="size-11 md:size-9" />
+          </div>
         </div>
-        <div className="font-mono text-xs text-muted-foreground">
-          (Press <kbd>d</kbd> to toggle dark mode)
-        </div>
-      </div>
+      </header>
+      
+      <main className="mx-auto flex w-full flex-1 flex-col gap-4 px-4 pt-5 pb-6 md:block md:flex-none md:px-6 md:pt-10 md:pb-14">
+
+      </main>
     </div>
   )
 }
