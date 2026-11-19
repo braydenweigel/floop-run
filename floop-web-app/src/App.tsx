@@ -5,6 +5,7 @@ import { Upload04Icon } from "@hugeicons/core-free-icons"
 import { ActivityStats } from "./components/activity-stats"
 import { ActivityTitle, FileChip } from "./components/activity-title"
 import { GpxUpload } from "./components/gpx-upload"
+import { SplitsCard } from "./components/splits-card"
 import { ThemeToggle } from "./components/theme-toggle"
 import {
   AlertDialog,
@@ -89,6 +90,12 @@ export function App() {
               <FileChip fileName={activity.fileName} className="max-w-[45%]" />
             </div>
             <ActivityStats gpx={activity.gpx} units={units} />
+            <div className="grid gap-4 md:mt-4 lg:grid-cols-[400px_minmax(0,1fr)]">
+              {/* both cards are half the viewport tall and scroll inside if needed */}
+              <SplitsCard gpx={activity.gpx} units={units} className="h-[50svh] min-h-72" />
+              {/* route map goes here */}
+              <section className="h-[50svh] min-h-72 overflow-auto rounded-xl border bg-card" />
+            </div>
           </>
         )}
       </main>
