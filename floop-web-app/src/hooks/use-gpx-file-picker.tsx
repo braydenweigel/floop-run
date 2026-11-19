@@ -7,7 +7,7 @@ import { parseFile } from "@/lib/gpx/parse"
  * Loads .gpx files from a file picker or a drop. Render `input` somewhere, then call `open()`
  * to show the picker or `load(file)` for a dropped file. Failed loads set `error`.
  */
-export function useGpxFilePicker(onLoad: (gpx: GPX) => void) {
+export function useGpxFilePicker(onLoad: (gpx: GPX, file: File) => void) {
   const inputRef = useRef<HTMLInputElement>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -22,7 +22,7 @@ export function useGpxFilePicker(onLoad: (gpx: GPX) => void) {
     setError(null)
     setLoading(true)
     try {
-      onLoad(await parseFile(file))
+      onLoad(await parseFile(file), file)
     } catch (e) {
       const reason = e instanceof Error ? e.message : String(e)
       setError(`Couldn't read "${file.name}": ${reason}`)

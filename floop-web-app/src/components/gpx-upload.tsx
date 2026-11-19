@@ -9,7 +9,7 @@ import { useGpxFilePicker } from "@/hooks/use-gpx-file-picker"
 import type { GPX } from "@/lib/gpx/models"
 
 /** Drop zone + file picker that parses a .gpx file and hands back the result. */
-function GpxUpload({ onLoad }: { onLoad: (gpx: GPX) => void }) {
+function GpxUpload({ onLoad }: { onLoad: (gpx: GPX, file: File) => void }) {
   const picker = useGpxFilePicker(onLoad)
   const [dragging, setDragging] = useState(false)
 

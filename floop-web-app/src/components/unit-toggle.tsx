@@ -2,7 +2,8 @@ import { cn } from "cn"
 
 import { Unit } from "@/lib/gpx/models"
 
-export type DistanceUnit = typeof Unit.Miles | typeof Unit.Kilometers
+import type { DistanceUnit } from "@/lib/gpx/models"
+export type { DistanceUnit }
 
 const OPTIONS: { value: DistanceUnit; label: string }[] = [
   { value: Unit.Miles, label: "Miles" },

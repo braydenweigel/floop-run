@@ -71,3 +71,6 @@ export interface Split {
   netElev: number; // change in elevation between start and end points
   heartRate: number | null; // average heart rate of the split
 }
+
+/** The units a user can choose to view distances in. */
+export type DistanceUnit = typeof Unit.Miles | typeof Unit.Kilometers;
