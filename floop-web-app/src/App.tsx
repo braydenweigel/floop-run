@@ -1,5 +1,6 @@
 import { useState } from "react"
 
+import { GpxUpload } from "./components/gpx-upload"
 import { ThemeToggle } from "./components/theme-toggle"
 import type { GPX } from "./lib/gpx/models"
 
@@ -23,7 +24,31 @@ export function App() {
       </header>
 
       <main className="mx-auto flex w-full flex-1 flex-col gap-4 px-4 pt-5 pb-6 md:block md:flex-none md:px-6 md:pt-10 md:pb-14">
-
+        {gpx === null ? (
+          <div className="flex flex-1 flex-col justify-center md:pt-24">
+            <GpxUpload onLoad={setGpx} />
+          </div>
+        ) : (
+          // temporary: raw stats to check the file loaded
+          <div>
+            <pre>
+              {JSON.stringify(
+                {
+                  name: gpx.track.name,
+                  points: gpx.track.segment.trackPoints.length,
+                  distance: gpx.track.distance,
+                  activityTime: gpx.track.activityTime,
+                  elevationGain: gpx.track.elevationGain,
+                  netElev: gpx.track.netElev,
+                  heartRate: gpx.track.heartRate,
+                },
+                null,
+                2,
+              )}
+            </pre>
+            <button onClick={() => setGpx(null)}>Load another file</button>
+          </div>
+        )}
       </main>
     </div>
   )
