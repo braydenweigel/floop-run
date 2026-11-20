@@ -43,8 +43,10 @@ function SplitsCard({
           This activity is too short to split.
         </p>
       ) : (
-        // the table scrolls inside the card. its header row stays pinned while scrolling
-        <div className="mt-2 min-h-0 flex-1 overflow-y-auto">
+        // the table scrolls inside the card. its header row stays pinned while scrolling.
+        // -mr-3 pr-3: the scrollbar sits out in the card's padding, leaving a gap before the
+        // HR column while the numbers still line up with "Per mile" above
+        <div className="mt-2 -mr-3 min-h-0 flex-1 overflow-y-auto pr-3">
           <table className="w-full text-sm tabular-nums">
             <thead>
               <tr className="text-xs text-muted-foreground [&>th]:sticky [&>th]:top-0 [&>th]:bg-card [&>th]:pb-2 [&>th]:font-normal [&>th]:shadow-[inset_0_-1px_0_var(--color-border)]">

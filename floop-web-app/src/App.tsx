@@ -93,8 +93,8 @@ export function App() {
             </div>
             <ActivityStats gpx={activity.gpx} units={units} />
             <div className="grid gap-4 lg:grid-cols-[400px_minmax(0,1fr)]">
-              {/* both cards are half the viewport tall and scroll inside if needed */}
-              <SplitsCard gpx={activity.gpx} units={units} className="h-[60svh] min-h-72" />
+              {/* side by side (lg+) both cards are 60% of the viewport tall. stacked, the splits card fits its rows, up to 60% */}
+              <SplitsCard gpx={activity.gpx} units={units} className="max-h-[60svh] lg:h-[60svh] lg:min-h-72" />
               <RouteMap gpx={activity.gpx} className="h-[60svh] min-h-72" />
             </div>
             <ActivityProfile gpx={activity.gpx} units={units} className="min-h-64 flex-1" />
