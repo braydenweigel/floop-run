@@ -28,12 +28,15 @@ export function routeColoring(gpx: GPX, metric: RouteMetric, units: DistanceUnit
     metric === "pace"
       ? [percentile(known, 0.97), percentile(known, 0.03)]
       : [Math.min(...known), Math.max(...known)]
-  const span = to - from
+  return { t: scaleToUnit(values, from, to), from, to }
+}
 
-  const t = values.map((v) =>
+/** Maps each value to 0–1, where `from` is 0 and `to` is 1 (either may be the larger). */
+export function scaleToUnit(values: (number | null)[], from: number, to: number): (number | null)[] {
+  const span = to - from
+  return values.map((v) =>
     v === null ? null : span !== 0 ? Math.min(1, Math.max(0, (v - from) / span)) : 0.5,
   )
-  return { t, from, to }
 }
 
 function metricValues(gpx: GPX, metric: RouteMetric, units: DistanceUnit): (number | null)[] {

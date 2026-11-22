@@ -2,11 +2,11 @@ import { useEffect, useMemo } from "react"
 import { CircleMarker, MapContainer, Pane, Polyline, TileLayer, useMap } from "react-leaflet"
 import type { LatLngBounds, LatLngTuple } from "leaflet"
 import { canvas, latLngBounds } from "leaflet"
-import { interpolatePlasma, interpolateTurbo, interpolateYlOrRd } from "d3-scale-chromatic"
 import "leaflet/dist/leaflet.css"
 import { cn } from "cn"
 
 import { SegmentedControl } from "@/components/segmented-control"
+import { COLORMAPS, UNKNOWN_COLOR, colormapGradient } from "@/lib/colormaps"
 import { formatDuration } from "@/lib/format"
 import { Unit } from "@/lib/gpx/models"
 import type { DistanceUnit, GPX } from "@/lib/gpx/models"
@@ -20,19 +20,7 @@ const ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">Op
 /** What the route line's color shows. */
 export type RouteColorMode = "solid" | RouteMetric
 
-// the colormap for each metric, from 0 to 1 (lowest to highest value, but slowest to fastest
-// for pace; see routeColoring). to change one,
-// swap in any interpolator from d3-scale-chromatic (interpolateMagma, interpolateCividis,
-// interpolateInferno, interpolateTurbo, interpolateRdYlBu...)
-const COLORMAPS: Record<RouteMetric, (t: number) => string> = {
-  pace: interpolatePlasma,
-  heartRate: interpolateYlOrRd,
-  elevation: interpolateTurbo,
-}
-// stops for each legend's CSS gradient
-const legendGradient = (colormap: (t: number) => string) =>
-  Array.from({ length: 11 }, (_, i) => colormap(i / 10)).join(", ")
-const UNKNOWN_COLOR = "#a3a3a3" // where a point has no value
+// colormaps for each metric are set in lib/colormaps.ts
 const LEVELS = 48 // colors the 0–1 range is split into. neighboring points of one level share a line
 
 /** Map of the activity's route with start and finish markers. */
@@ -109,7 +97,7 @@ function RouteMap({
               <span>{formatValue(metric, coloring.from)}</span>
               <span
                 className="h-1.5 w-16 rounded-full"
-                style={{ background: `linear-gradient(to right, ${legendGradient(COLORMAPS[metric])})` }}
+                style={{ background: colormapGradient(COLORMAPS[metric]) }}
               />
               <span>
                 {formatValue(metric, coloring.to)} {valueUnit(metric, units)}

@@ -56,8 +56,15 @@ export function App() {
             </span>
             {activity && (
               <div className="hidden min-w-0 items-center gap-4 md:flex">
-                <ActivityTitle gpx={activity.gpx} fileName={activity.fileName} variant="header" />
-                <FileChip fileName={activity.fileName} className="hidden lg:flex" />
+                <ActivityTitle
+                  gpx={activity.gpx}
+                  fileName={activity.fileName}
+                  variant="header"
+                />
+                <FileChip
+                  fileName={activity.fileName}
+                  className="hidden lg:flex"
+                />
               </div>
             )}
           </div>
@@ -97,13 +104,22 @@ export function App() {
           <>
             {/* the header has no room for the title on small screens */}
             <div className="flex items-center justify-between gap-3 md:hidden">
-              <ActivityTitle gpx={activity.gpx} fileName={activity.fileName} variant="page" />
+              <ActivityTitle
+                gpx={activity.gpx}
+                fileName={activity.fileName}
+                variant="page"
+              />
               <FileChip fileName={activity.fileName} className="max-w-[45%]" />
             </div>
             <ActivityStats gpx={activity.gpx} units={units} />
             <div className="grid gap-4 lg:grid-cols-[400px_minmax(0,1fr)]">
               {/* side by side (lg+) both cards are 60% of the viewport tall. stacked, the splits card fits its rows, up to 60% */}
-              <SplitsCard gpx={activity.gpx} units={units} className="max-h-[60svh] lg:h-[60svh] lg:min-h-72" />
+              <SplitsCard
+                gpx={activity.gpx}
+                units={units}
+                colorBy={routeColorBy}
+                className="max-h-[60svh] lg:h-[60svh] lg:min-h-72"
+              />
               <RouteMap
                 gpx={activity.gpx}
                 units={units}
@@ -112,7 +128,11 @@ export function App() {
                 className="h-[60svh] min-h-72"
               />
             </div>
-            <ActivityProfile gpx={activity.gpx} units={units} className="min-h-64 flex-1" />
+            <ActivityProfile
+              gpx={activity.gpx}
+              units={units}
+              className="min-h-64 flex-1"
+            />
           </>
         )}
       </main>
