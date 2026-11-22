@@ -7,6 +7,7 @@ import { ActivityStats } from "./components/activity-stats"
 import { ActivityTitle, FileChip } from "./components/activity-title"
 import { GpxUpload } from "./components/gpx-upload"
 import { RouteMap } from "./components/route-map"
+import type { RouteColorMode } from "./components/route-map"
 import { SplitsCard } from "./components/splits-card"
 import { ThemeToggle } from "./components/theme-toggle"
 import {
@@ -34,7 +35,15 @@ export function App() {
   const [activity, setActivity] = useState<Activity | null>(null)
   const [units, setUnits] = useState<DistanceUnit>(Unit.Miles)
 
-  const loadActivity = (gpx: GPX, file: File) => setActivity({ gpx, fileName: file.name })
+  const [routeColorBy, setRouteColorBy] = useState<RouteColorMode>("solid")
+
+  const loadActivity = (gpx: GPX, file: File) => {
+    setActivity({ gpx, fileName: file.name })
+    // a new file without heart rate data can't keep the route colored by heart rate
+    if (gpx.track.heartRate === null) {
+      setRouteColorBy((mode) => (mode === "heartRate" ? "solid" : mode))
+    }
+  }
   const picker = useGpxFilePicker(loadActivity)
 
   return (
@@ -95,7 +104,13 @@ export function App() {
             <div className="grid gap-4 lg:grid-cols-[400px_minmax(0,1fr)]">
               {/* side by side (lg+) both cards are 60% of the viewport tall. stacked, the splits card fits its rows, up to 60% */}
               <SplitsCard gpx={activity.gpx} units={units} className="max-h-[60svh] lg:h-[60svh] lg:min-h-72" />
-              <RouteMap gpx={activity.gpx} className="h-[60svh] min-h-72" />
+              <RouteMap
+                gpx={activity.gpx}
+                units={units}
+                colorBy={routeColorBy}
+                onColorByChange={setRouteColorBy}
+                className="h-[60svh] min-h-72"
+              />
             </div>
             <ActivityProfile gpx={activity.gpx} units={units} className="min-h-64 flex-1" />
           </>

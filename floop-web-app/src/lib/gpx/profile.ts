@@ -84,7 +84,7 @@ export function buildProfile(gpx: GPX, units: DistanceUnit, samples = 400): Prof
 }
 
 /** Linear interpolation of ys at x. xs must be in increasing order. */
-function interpolate(xs: number[], ys: number[], x: number): number {
+export function interpolate(xs: number[], ys: number[], x: number): number {
   if (xs.length === 1 || x <= xs[0]) return ys[0]
   if (x >= xs[xs.length - 1]) return ys[ys.length - 1]
 
@@ -102,7 +102,7 @@ function interpolate(xs: number[], ys: number[], x: number): number {
 }
 
 /** Centered moving average. */
-function smooth(values: number[], radius = 2): number[] {
+export function smooth(values: number[], radius = 2): number[] {
   return values.map((_, i) => {
     const from = Math.max(0, i - radius)
     const to = Math.min(values.length, i + radius + 1)
@@ -112,7 +112,7 @@ function smooth(values: number[], radius = 2): number[] {
   })
 }
 
-function percentile(values: number[], p: number): number {
+export function percentile(values: number[], p: number): number {
   const sorted = [...values].sort((a, b) => a - b)
   return sorted[Math.min(sorted.length - 1, Math.floor(p * sorted.length))]
 }
